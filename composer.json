@@ -1,0 +1,38 @@
+{
+    "name": "schachbulle/contao-discussion-bundle",
+    "type": "contao-bundle",
+    "description": "Diskussionsforum für Contao 4",
+    "license": "LGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Frank Hoppe",
+            "homepage": "https://www.schachbulle.de/"
+        }
+    ],
+    "require": {
+        "php": "^7.0 || ^8.0",
+        "contao/core-bundle": "^4",
+        "codefog/contao-haste": "*",
+        "schachbulle/contao-helper-bundle": ">=0"
+    },
+    "conflict": {
+        "contao/core": "*",
+        "contao/manager-plugin": "<2.0 || >=3.0"
+    },
+    "require-dev": {
+        "contao/manager-plugin": "^2.0",
+        "doctrine/doctrine-cache-bundle": "^1.3"
+    },
+    "extra": {
+        "contao-manager-plugin": "Schachbulle\\ContaoDiscussionBundle\\ContaoManager\\Plugin"
+    },
+    "autoload": {
+        "psr-4": {
+            "Schachbulle\\ContaoDiscussionBundle\\": "src/"
+        }
+    },
+    "support": {
+        "issues": "https://github.com/Samson1964/contao-discussion-bundle/issues",
+        "source": "https://github.com/Samson1964/contao-discussion-bundle"
+    }
+}

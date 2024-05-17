@@ -1,0 +1,92 @@
+.ce_volunteeringlist {
+	margin-bottom   : 20px;
+}
+
+.ce_volunteeringlist .list_header {
+	margin-bottom   : 5px;
+	padding         : 5px;
+	background-color: #0788ca;
+	border          : 1px solid #646464;
+	border-radius   : 3px;
+	font-weight     : bold;
+	color           : #FFFFff;
+	display         : flex;
+	transition      : all 0.1s ease-in-out;
+}
+
+.ce_volunteeringlist .list_header:hover {
+	background-color: #056799;
+}
+
+.ce_volunteeringlist .list_header .col1 {
+	width           : 30%;
+}
+
+.ce_volunteeringlist .list_content {
+	padding         : 5px;
+	border-bottom   : 1px solid #bababa;
+	display         : flex;
+	transition      : all 0.1s ease-in-out;
+}
+
+.ce_volunteeringlist .list_content:hover {
+	background-color: #e8e8e8;
+}
+
+.ce_volunteeringlist .list_content .timeperiod {
+	width           : 30%;
+	font-weight     : bold;
+	white-space     : normal;
+}
+
+.ce_volunteeringlist .list_content .image {
+	width           : 10%;
+	margin-top      : 7px;
+}
+
+.ce_volunteeringlist .team_content .image {
+	width           : 20%;
+	margin-top      : 7px;
+}
+
+.ce_volunteeringlist .list_content .image img {
+	width           : 100%;
+	height          : auto;
+}
+
+.ce_volunteeringlist .list_content .infobox {
+	width           : 60%;
+	padding-left    : 5px;
+	display         : flex;
+	flex-direction  : column;
+}
+
+.ce_volunteeringlist .team_content .infobox {
+	width           : 65%;
+	padding-left    : 5px;
+	display         : flex;
+	flex-direction  : column;
+}
+
+.ce_volunteeringlist .list_content .infobox .name {
+	font-weight     : bold;
+}
+
+.ce_volunteeringlist .list_content .infobox .livedata {
+	font-size       : 14px;
+	color           : #000000;
+}
+
+.ce_volunteeringlist .list_content .infobox .description {
+	font-size       : 15px;
+	font-style      : italic;
+	color           : #575757;
+}
+
+.ce_volunteeringlist .list_content .infobox .description p:first-child {
+	margin-top      : 0px;
+}
+
+.ce_volunteeringlist .list_content .infobox .description p:last-child {
+	margin-bottom   : 0px;
+}
