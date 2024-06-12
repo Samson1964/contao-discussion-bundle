@@ -10,4 +10,4 @@
 /**
  * Back end modules
  */
-$GLOBALS['TL_LANG']['MOD']['discussion'] = array('Funktionärslisten', 'Funktionärslisten verwalten');
+$GLOBALS['TL_LANG']['MOD']['discussion'] = array('Diskussionsforum', 'Diskussionsforum verwalten');

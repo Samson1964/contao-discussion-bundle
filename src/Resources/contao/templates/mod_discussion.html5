@@ -2,6 +2,73 @@
 
 <?php $this->block('content'); ?>
 
-hallo
+<div class="breadcrumb">
+	Navigation: <?= $this->breadcrumb ?>
+</div>
+
+<?php if($this->mode == 'boards'): ?>
+
+	<div class="boards">
+		<table>
+			<tr>
+				<th colspan="2">Foren</th>
+			</tr>
+			<?php foreach($this->boards as $board): ?>
+			<tr>
+				<td width="25%"><?= $board['image'] ?></td>
+				<td style="vertical-align: top;"><a href="<?= $board['url'] ?>"><?= $board['title'] ?></a><br><?= $board['description'] ?></td>
+			</tr>
+			<?php endforeach; ?>
+		</table>
+	</div>
+
+<?php elseif($this->mode == 'threads'): ?>
+
+	<div class="threads">
+		<h2>Themen-Übersicht</h2>
+		<?php if($this->threads): ?>
+			<div class="headline">
+				<div class="title">Themen</div>
+				<div class="answers">Antworten</div>
+				<div class="hits">Zugriffe</div>
+				<div class="last">Letzter Beitrag</div>
+			</div>
+			<?php foreach($this->threads as $thread): ?>
+				<div class="thread">
+					<div class="title"><a href="<?= $thread['url'] ?>"><?= $thread['title'] ?></a></div>
+					<div class="answers"><?= $thread['answers'] ?></div>
+					<div class="hits"><?= $thread['hits'] ?></div>
+					<div class="last"><?= $thread['last'] ?></div>
+				</div>
+			<?php endforeach; ?>
+		<?php else: ?>
+			<p>Es sind keine Themen vorhanden.</p>
+		<?php endif; ?>
+	</div>
+	<div class="form">
+		<h2>Neues Thema</h2>
+		<?= $this->form ?>
+	</div>
+
+<?php elseif($this->mode == 'topics'): ?>
+
+	<div class="topics">
+		<h2>Thema: <?= $this->thread ?></h2>
+		<?php if($this->topics): ?>
+			<?php foreach($this->topics as $topic): ?>
+				<div class="topic">
+					<div class="title"><?= $topic['title'] ?></div>
+					<div class="author">von <?= $topic['user'] ?> &raquo <?= $topic['date'] ?></div>
+					<div class="text"><?= $topic['text'] ?></div>
+				</div>
+			<?php endforeach; ?>
+		<?php endif; ?>
+	</div>
+	<div class="form">
+		<h2>Antwort schreiben</h2>
+		<?= $this->form ?>
+	</div>
+
+<?php endif; ?>
 
 <?php $this->endblock(); ?>

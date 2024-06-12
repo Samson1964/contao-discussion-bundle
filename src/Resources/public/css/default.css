@@ -1,0 +1,51 @@
+.mod_discussion .threads .headline {
+	padding: 5px;
+	display: flex;
+	font-weight: bold;
+}
+
+.mod_discussion .threads .thread {
+	border: 1px solid #8D8D8D;
+	padding: 5px;
+	margin-bottom: 5px;
+	display: flex;
+}
+
+.mod_discussion .threads .title {
+	flex-grow: 3;
+	width: 60%;
+}
+
+.mod_discussion .threads .answers {
+	flex-grow: 1;
+	width: 10%;
+}
+
+.mod_discussion .threads .hits {
+	flex-grow: 1;
+	width: 10%;
+}
+
+.mod_discussion .threads .last {
+	flex-grow: 1;
+	width: 20%;
+}
+
+.mod_discussion .topic {
+	border: 1px solid #8D8D8D;
+	padding: 5px;
+	margin-bottom: 10px;
+}
+
+.mod_discussion .topic .title {
+	font-weight: bold;
+	font-size: 22px;
+}
+
+.mod_discussion .topic .author {
+	font-size: 14px;
+}
+
+.mod_discussion .topic .text {
+	font-size: 18px;
+}

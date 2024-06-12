@@ -21,7 +21,7 @@ $GLOBALS['TL_DCA']['tl_discussion'] = array
 	'config' => array
 	(
 		'dataContainer'               => 'Table',
-		'ctable'                      => array('tl_discussion_items'),
+		'ctable'                      => array('tl_discussion_threads'),
 		'switchToEdit'                => true,
 		'enableVersioning'            => true,
 		'sql' => array
@@ -46,7 +46,8 @@ $GLOBALS['TL_DCA']['tl_discussion'] = array
 		),
 		'label' => array
 		(
-			'fields'                  => array('title'),
+			'fields'                  => array('title', 'title_published', 'admin_name', 'host_name'),
+			'showColumns'             => true,
 			'format'                  => '%s'
 		),
 		'global_operations' => array
@@ -64,7 +65,7 @@ $GLOBALS['TL_DCA']['tl_discussion'] = array
 			'edit' => array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['tl_discussion']['edit'],
-				'href'                => 'table=tl_discussion_items',
+				'href'                => 'table=tl_discussion_threads',
 				'icon'                => 'edit.gif'
 			),
 			'editheader' => array
@@ -72,14 +73,12 @@ $GLOBALS['TL_DCA']['tl_discussion'] = array
 				'label'               => &$GLOBALS['TL_LANG']['tl_discussion']['editheader'],
 				'href'                => 'act=edit',
 				'icon'                => 'header.gif',
-				'button_callback'     => array('tl_discussion', 'editHeader')
 			),
 			'copy' => array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['tl_discussion']['copy'],
 				'href'                => 'act=copy',
 				'icon'                => 'copy.gif',
-				'button_callback'     => array('tl_discussion', 'copyArchive')
 			),
 			'delete' => array
 			(
@@ -87,7 +86,6 @@ $GLOBALS['TL_DCA']['tl_discussion'] = array
 				'href'                => 'act=delete',
 				'icon'                => 'delete.gif',
 				'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"',
-				'button_callback'     => array('tl_discussion', 'deleteArchive')
 			),
 			'toggle' => array
 			(
@@ -115,7 +113,7 @@ $GLOBALS['TL_DCA']['tl_discussion'] = array
 	// Palettes
 	'palettes' => array
 	(
-		'default'                     => '{title_legend},title;{template_legend},templatefile;{publish_legend},published'
+		'default'                     => '{title_legend},title,title_published,description;{admin_legend:hide},admin_name,admin_email;{host_legend:hide},host_name,host_email;{image_legend:hide},singleSRC;{publish_legend},published'
 	),
 
 	// Fields
@@ -135,18 +133,120 @@ $GLOBALS['TL_DCA']['tl_discussion'] = array
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
-			'eval'                    => array('mandatory'=>true, 'maxlength'=>255),
+			'eval'                    => array
+			(
+				'mandatory'           => true,
+				'maxlength'           => 255, 
+				'tl_class'            => 'w50'
+			),
 			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
-		'templatefile' => array
+		'title_published' => array
 		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_discussion']['templatefile'],
+			'label'                   => &$GLOBALS['TL_LANG']['tl_discussion']['title_published'],
 			'exclude'                 => true,
-			'inputType'               => 'select',
-			'options_callback'        => array('tl_discussion', 'getTemplates'),
-			'eval'                    => array('tl_class'=>'w50'),
-			'sql'                     => "varchar(64) NOT NULL default ''"
-		), 
+			'search'                  => true,
+			'inputType'               => 'text',
+			'eval'                    => array
+			(
+				'mandatory'           => false,
+				'maxlength'           => 255, 
+				'tl_class'            => 'w50'
+			),
+			'sql'                     => "varchar(255) NOT NULL default ''"
+		),
+		'description' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_discussion']['description'],
+			'exclude'                 => true,
+			'search'                  => true,
+			'inputType'               => 'textarea',
+			'eval'                    => array
+			(
+				'tl_class'            => 'clr',
+				'mandatory'           => false, 
+				'allowHtml'           => true, 
+				'class'               => 'monospace', 
+				'rte'                 => 'ace|html'
+			),
+			'sql'                     => "mediumtext NULL"
+		),
+		'admin_name' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_discussion']['admin_name'],
+			'exclude'                 => true,
+			'search'                  => true,
+			'inputType'               => 'text',
+			'eval'                    => array
+			(
+				'mandatory'           => false,
+				'maxlength'           => 255, 
+				'tl_class'            => 'w50'
+			),
+			'sql'                     => "varchar(255) NOT NULL default ''"
+		),
+		'admin_email' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_discussion']['admin_email'],
+			'inputType'               => 'text',
+			'exclude'                 => true,
+			'sorting'                 => true,
+			'flag'                    => 1,
+			'search'                  => true,
+			'eval'                    => array
+			(
+				'mandatory'           => false, 
+				'maxlength'           => 255, 
+				'tl_class'            => 'w50', 
+				'rgxp'                => 'email'
+			),
+			'sql'                     => "varchar(255) NOT NULL default ''"
+		),
+		'host_name' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_discussion']['host_name'],
+			'exclude'                 => true,
+			'search'                  => true,
+			'inputType'               => 'text',
+			'eval'                    => array
+			(
+				'mandatory'           => false,
+				'maxlength'           => 255, 
+				'tl_class'            => 'w50'
+			),
+			'sql'                     => "varchar(255) NOT NULL default ''"
+		),
+		'host_email' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_discussion']['host_email'],
+			'inputType'               => 'text',
+			'exclude'                 => true,
+			'sorting'                 => true,
+			'flag'                    => 1,
+			'search'                  => true,
+			'eval'                    => array
+			(
+				'mandatory'           => false, 
+				'maxlength'           => 255, 
+				'tl_class'            => 'w50', 
+				'rgxp'                => 'email'
+			),
+			'sql'                     => "varchar(255) NOT NULL default ''"
+		),
+		'singleSRC' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_discussion']['singleSRC'],
+			'exclude'                 => true,
+			'inputType'               => 'fileTree',
+			'eval'                    => array
+			(
+				'filesOnly'           => true,
+				'fieldType'           => 'radio',
+				'tl_class'            => 'clr',
+				'extensions'          => 'jpg,jpeg,png,gif,webp'
+			),
+			'sql'                     => "binary(16) NULL",
+		),
 		'published' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_discussion']['published'],
@@ -185,99 +285,4 @@ class tl_discussion extends Backend
 		$this->import('BackendUser', 'User');
 	}
 
-	public function getTemplates($dc)
-	{
-		if(version_compare(VERSION.BUILD, '2.9.0', '>=') && version_compare(VERSION.BUILD, '4.8.0', '<'))
-		{
-			// Den 2. Parameter gibt es nur ab Conato 2.9 bis 4.7
-			return $this->getTemplateGroup('ce_discussion_', $dc->activeRecord->id);
-		}
-		else
-		{
-			return $this->getTemplateGroup('ce_discussion_');
-		}
-	} 
-
-	/**
-	 * Return the edit header button
-	 * @param array
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @return string
-	 */
-	public function editHeader($row, $href, $label, $title, $icon, $attributes)
-	{
-		return ($this->User->isAdmin || count(preg_grep('/^tl_discussion::/', $this->User->alexf)) > 0) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ' : Image::getHtml(preg_replace('/\.gif$/i', '_.gif', $icon)).' ';
-	}
-
-
-	/**
-	 * Return the copy archive button
-	 * @param array
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @return string
-	 */
-	public function copyArchive($row, $href, $label, $title, $icon, $attributes)
-	{
-		return ($this->User->isAdmin || $this->User->hasAccess('create', 'newp')) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ' : Image::getHtml(preg_replace('/\.gif$/i', '_.gif', $icon)).' ';
-	}
-
-
-	/**
-	 * Return the delete archive button
-	 * @param array
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @return string
-	 */
-	public function deleteArchive($row, $href, $label, $title, $icon, $attributes)
-	{
-		return ($this->User->isAdmin || $this->User->hasAccess('delete', 'newp')) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.Image::getHtml($icon, $label).'</a> ' : Image::getHtml(preg_replace('/\.gif$/i', '_.gif', $icon)).' ';
-	}
-
-	/**
-	 * Generiert automatisch ein Alias aus dem Titel
-	 * @param mixed
-	 * @param \DataContainer
-	 * @return string
-	 * @throws \Exception
-	 */
-	public function generateAlias($varValue, DataContainer $dc)
-	{
-		$autoAlias = false;
-
-		// Generate alias if there is none
-		if ($varValue == '')
-		{
-			$autoAlias = true;
-			$varValue = standardize(\StringUtil::restoreBasicEntities($dc->activeRecord->title));
-		}
-
-		$objAlias = $this->Database->prepare("SELECT id FROM tl_discussion WHERE alias=?")
-		                           ->execute($varValue);
-
-		// Check whether the news alias exists
-		if ($objAlias->numRows > 1 && !$autoAlias)
-		{
-			throw new Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $varValue));
-		}
-
-		// Add ID to alias
-		if ($objAlias->numRows && $autoAlias)
-		{
-			$varValue .= '-' . $dc->id;
-		}
-
-		return $varValue;
-	} 
 }
